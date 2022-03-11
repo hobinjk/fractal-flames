@@ -59,6 +59,8 @@ function map(v, curLow, curHigh, newLow, newHigh) {
   return (v - curLow) / (curHigh - curLow) * (newHigh - newLow) + newLow;
 }
 
+const multipleSketches = false;
+
 class Sketch {
   constructor() {
     this.canvas = document.createElement('canvas');
@@ -76,10 +78,13 @@ class Sketch {
     this.onMouseUp = this.onMouseUp.bind(this);
     this.onMouseDown = this.onMouseDown.bind(this);
 
-    this.canvas.addEventListener('keypress', this.onKeyPress);
-    this.canvas.addEventListener('mousemove', this.onMouseMove);
-    this.canvas.addEventListener('mouseup', this.onMouseUp);
-    this.canvas.addEventListener('mousedown', this.onMouseDown);
+    let evtTarget = multipleSketches ?
+      this.canvas :
+      document.body;
+    evtTarget.addEventListener('keypress', this.onKeyPress);
+    evtTarget.addEventListener('mousemove', this.onMouseMove);
+    evtTarget.addEventListener('mouseup', this.onMouseUp);
+    evtTarget.addEventListener('mousedown', this.onMouseDown);
 
     document.body.appendChild(this.canvas);
 
